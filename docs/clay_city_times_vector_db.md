@@ -5,3 +5,5 @@ Overview
 
 Notes
 - Review output directory and any API keys before running embedding steps.
+
+- **Last updated**: 2025-11-14

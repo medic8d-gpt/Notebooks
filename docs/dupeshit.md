@@ -37,3 +37,5 @@ verify_and_move_duplicates('sizeaftersnake.txt')
 Recommendations
 - Do a dry-run by printing moves or by copying `shutil.move` to a `shutil.copy2` call in a temporary run.
 - Run the notebook in a small test folder first to verify behavior.
+
+- **Last updated**: 2025-11-14

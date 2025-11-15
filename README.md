@@ -54,6 +54,67 @@ This repository is a lightweight collection of Jupyter notebooks and a few helpe
 2. Use `dupeshit.ipynb` to find and relocate duplicate files in a project folder before heavy processing.
 3. When merging duplicate notebooks, keep one canonical file without `merged`/`hybrid` suffixes (this repo has `rigt.ipynb` as an example).
 
+**GPT & Custom Agent Integration (Prototyping)**
+
+- **Why add a GPT/Agent layer?**
+  - Use a lightweight agent to automate repetitive notebook tasks: run pipeline phases, validate outputs, generate summaries, or guide chunking/embedding decisions.
+  - Combine retrieval (ChromaDB), local helpers (scripts in `code/`), and an LLM to make interactive, repeatable workflows.
+
+- **How to start (quick recipe)**
+  1. Pick a small workflow step (e.g., text conversion → dedupe check → quick embedding summary).
+  2. Wrap that step in a callable script (e.g., `code/convert_files.py`, `code/fuzzy_dedupe.py`).
+  3. Create a prompt-template that instructs the agent when to call which script and what to return (status, errors, short summary).
+  4. Use a minimal agent loop (below) that: receives task, runs script/tool, returns results, and optionally asks the user follow-up prompts.
+
+- **Simple prompt template (example)**
+
+```text
+You are a helpful automation agent. The user gives you a high-level task and you may call local tools.
+Tools available: convert_files, fuzzy_dedupe, build_db.
+When you run a tool, return a one-line summary of the result and any important warnings.
+
+Task: "Prepare the sample folder for embedding and report how many files will be embedded."
+
+Steps:
+1) Run: convert_files --source <path> --output <text_out>
+2) Run: fuzzy_dedupe --text-dir <text_out> --threshold 98
+3) Inspect <text_out> and report count of .txt files.
+
+Return format (JSON): {"steps": [{"tool":"convert_files","status":"OK","note":"..."}, ...], "final_count": 123}
+```
+
+- **Minimal Python agent loop (pseudo-code)**
+
+```python
+import subprocess, json
+
+def run_tool(cmd):
+    p = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    return p.returncode, p.stdout.splitlines()[-5:]
+
+def simple_agent(task):
+    # parse task -> decide tool calls (very small planner)
+    r1, out1 = run_tool('python code/convert_files.py --source ./sample --output ./out')
+    r2, out2 = run_tool('python code/fuzzy_dedupe.py --text-dir ./out --out ./dupes')
+    count = len(list(Path('./out').rglob('*.txt')))
+    return {'steps':[('convert',r1),('dedupe',r2)], 'final_count': count}
+```
+
+- **Libraries & patterns**
+  - Use `openai` or `langchain` for model calls; use `chromadb` for retrieval; local Python scripts for deterministic ops.
+  - Keep prompts explicit about which local tools the agent may call and required output format (JSON preferred for parsing).
+  - Add a safety/backup step before destructive actions (move/delete): agent should call `backup_and_delete.sh --dry-run` first.
+
+- **Example use-cases**
+  - Automated run: convert a new folder, dedupe, build embeddings, and create a small `report.json` summarizing progress.
+  - Interactive assistant: ask the agent what chunk size to use (based on file sizes) and accept a suggested configuration.
+  - Continuous monitor: an agent that watches a folder and triggers processing when new files appear.
+
+**Developer notes**
+- Start small: prototyping a simple agent that orchestrates local scripts is easier than building a full RL-agent. Store prompt templates in `docs/` or `code/prompt_templates/` so they are versioned.
+- When the agent runs local tools, prefer deterministic outputs (JSON or well-structured logs) so the agent can reliably parse results.
+
+
 **Developer notes**
 - Files use simple Python stdlib — no special dependencies beyond common data libs (e.g., `nltk` may be used in notebooks that build language maps). Run `pip install` in the notebook environment as needed.
 - Notebooks are Colab-friendly: expect explicit `drive.mount('/content/drive')` steps.

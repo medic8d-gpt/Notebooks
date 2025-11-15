@@ -14,3 +14,12 @@ Pages included (expanded):
 - `articles_to_cleandb.md` — scripts to convert article sets into a cleaned DB-ready format.
 
 If you'd like me to auto-generate per-notebook 'first-cell' extracts or create rendered HTML docs, I can do that next.
+
+Additional resources:
+- `comparisons_and_notes.md` — consolidated comparisons, merge notes, and recommended next steps.
+- `comparisons_detailed.md` — a cell-by-cell mapping and example commands for key notebooks (`doc_to_db.ipynb`, `markdown_vector_embedder.ipynb`).
+
+- [Comparisons & Notes](comparisons_and_notes.md) — consolidated comparisons, merge notes, and recommended next steps.
+- [Detailed Comparisons](comparisons_detailed.md) — a cell-by-cell mapping and example commands for key notebooks (`doc_to_db.ipynb`, `markdown_vector_embedder.ipynb`).
+
+- **Last updated**: 2025-11-14

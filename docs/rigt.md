@@ -41,3 +41,5 @@ with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
 Notes & recommendations
 - The word regex (`\b[a-z]+\b`) ignores numbers and punctuation — if your dataset uses contractions or other characters, modify the regex accordingly.
 - Consider running the word counting cell on a small sample first to validate paths and encoding.
+
+- **Last updated**: 2025-11-14

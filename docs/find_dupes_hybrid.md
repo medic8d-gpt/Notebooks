@@ -15,3 +15,5 @@ When to use
 
 Run notes
 - The notebook expects relative paths to the two notebooks you want to compare and will write a combined `*_hybrid.ipynb` output.
+
+- **Last updated**: 2025-11-14
