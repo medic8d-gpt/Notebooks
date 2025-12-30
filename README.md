@@ -30,8 +30,9 @@ This repository is a collection of Jupyter notebooks, web projects, documentatio
 - **Documentation**: [docs/](docs/), [doc_shit/](doc_shit/)
 
 **Why this repo exists**
-- Centralize working notebooks and small scripts for text processing, archive downloads, and deduplication workflows.
-- Provide repeatable tools to merge duplicates, normalize notebook metadata, and prepare cleaned datasets for downstream vectorization or analysis.
+- Centralize working notebooks, web projects, and scripts for text processing, web development, archive downloads, and deduplication workflows.
+- Provide repeatable tools to merge duplicates, normalize notebook metadata, prepare cleaned datasets for vectorization, and build web applications.
+- Store documentation, configurations, and AI/GPT agent setups in one place.
 
 **Usage — quick start**
 - Open any notebook in `books/` with your preferred Jupyter/Colab environment.
@@ -51,13 +52,20 @@ This repository is a collection of Jupyter notebooks, web projects, documentatio
     ```
 
 **Key Notebooks & Scripts (what they do)**
-- **`books/rigt.ipynb`** — canonical merged notebook (renamed from a hybrid merge of a downloader workflow). Contains Google Colab oriented scripts for scanning a downloaded archive subset, counting word frequencies, and building an OCR correction map.
-- **`books/doc_to_db.ipynb` & `books/colab_file_converter.ipynb`** — scripts that prepare textual files for insertion into a database or vector store. Expect Drive-mount steps and path configuration.
-- **`books/dupeshit.ipynb`** — a reusable dedupe utility implemented in notebook form. It scans directories, groups files by size and hash, keeps the oldest (or alphabetically first) file, and moves duplicates to a `dupeshit/` folder. Useful when cleaning a large export of files.
-- **`books/find_dupes_hybrid.ipynb`** — hybrid created from two versions of a `find_dupes` notebook: shows comparison logic and merged unique cells.
-- **`code/ipynb_namer.py`** — (utility) helps normalizing notebook filenames and optionally canonicalizing names.
-- **`code/snake_casey.py`** — small helper to convert names to snake_case; used for consistent file naming.
-- **`code/usergroupmaker.sh`** — a shell helper script used interactively.
+- **`doc_to_db.ipynb`** (root) — prepare textual files for insertion into a database or vector store
+- **`books/articles_to_cleandb.ipynb`** — clean and process articles for database storage
+- **`books/clay_city_times_2.ipynb`** & **`books/clay_city_times_vector_db.ipynb`** — process Clay City Times data for vector storage
+- **`books/colab_file_converter.ipynb`** — convert files for Google Colab environments
+- **`books/db_markdown.ipynb`** — markdown database operations
+- **`books/doc_to_db.ipynb`** — prepare documents for database insertion (Drive-mount steps and path configuration)
+- **`books/dupeshit.ipynb`** — dedupe utility that scans directories, groups files by size and hash, keeps the oldest file, and moves duplicates to a `dupeshit/` folder
+- **`books/find_dupes_hybrid.ipynb`** — hybrid duplicate finder with comparison logic
+- **`books/markdown_vector_embedder.ipynb`** — embed markdown content for vector search
+- **`books/thekygazzette.ipynb`** — process Kentucky Gazette data
+- **`code/ipynb_namer.py`** — normalize notebook filenames
+- **`code/snake_casey.py`** — convert names to snake_case for consistent file naming
+- **`code/usergroupmaker.sh`** — interactive shell helper script
+- **`scripts/backup_and_delete.sh`** — backup and deletion automation
 
 **Recommended workflow**
 1. Inspect `books/` notebooks and run them in Colab or a local Jupyter server (they assume Drive mounts or local folders — review path variables first).
