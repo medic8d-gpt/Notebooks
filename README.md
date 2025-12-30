@@ -70,7 +70,8 @@ This repository is a collection of Jupyter notebooks, web projects, documentatio
 **Recommended workflow**
 1. Inspect `books/` notebooks and run them in Colab or a local Jupyter server (they assume Drive mounts or local folders — review path variables first).
 2. Use `dupeshit.ipynb` to find and relocate duplicate files in a project folder before heavy processing.
-3. When merging duplicate notebooks, keep one canonical file without `merged`/`hybrid` suffixes (this repo has `rigt.ipynb` as an example).
+3. For web development, explore projects in `gpt-site-builder/`, `ops-wall-mvp/`, or `spotapp/`.
+4. Reference documentation in `docs/` and configuration files in `doc_shit/` for project-specific setup.
 
 **GPT & Custom Agent Integration (Prototyping)**
 

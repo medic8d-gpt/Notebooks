@@ -17,3 +17,4 @@ __pycache__/
 venv/
 __pycache__/
 .pytest_cache/
+*.pdf
