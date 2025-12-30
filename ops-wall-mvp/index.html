@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ops Wall Manager Sim (MVP)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <div class="group" style="min-width:280px;">
+        <div class="kpi" style="min-width:260px;">
+          <div class="label">Facility</div>
+          <div class="value" id="kpiFacility">—</div>
+        </div>
+      </div>
+
+      <div class="group">
+        <select id="scenarioSelect" title="Scenario"></select>
+        <button id="btnNewSeed" title="Re-seed randomness">New seed</button>
+        <button id="btnStart">Start</button>
+        <button id="btnPause" disabled>Pause</button>
+        <button id="btnRestart" disabled>Restart</button>
+      </div>
+
+      <div class="group">
+        <button class="tiny" data-action="speed" data-speed="1">1×</button>
+        <button class="tiny" data-action="speed" data-speed="2">2×</button>
+        <button class="tiny" data-action="speed" data-speed="4">4×</button>
+      </div>
+
+      <div class="group" style="flex:1; min-width:520px;">
+        <div class="kpi">
+          <div class="label">Time</div>
+          <div class="value" id="kpiTime">—</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Demand (forecast / actual)</div>
+          <div class="value" id="kpiDemand">—</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Headcount (planned / active / pool)</div>
+          <div class="value" id="kpiHC">—</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Backlog (in / out / exceptions)</div>
+          <div class="value" id="kpiBacklog">—</div>
+        </div>
+        <div class="kpi">
+          <div class="label">SLA Risk</div>
+          <div class="value" id="kpiSla">—</div>
+        </div>
+        <div class="kpi">
+          <div class="label">OT Burn (used / cap)</div>
+          <div class="value" id="kpiOT">—</div>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="panel" id="leftPanel">
+        <div class="panelHeader">
+          <h2>Process Cards</h2>
+          <span class="badge" id="badgeMode">—</span>
+        </div>
+        <div class="panelBody">
+          <div class="cards" id="processCards"></div>
+
+          <div style="height:10px;"></div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Exceptions</span>
+              <span class="badge" id="badgeExceptions">—</span>
+            </div>
+            <div class="row"><span>Exception WIP</span><b id="excWip">—</b></div>
+            <div class="row"><span>High-dwell (≥10m)</span><b id="excDwell">—</b></div>
+            <div class="row"><span>SWAT staffing</span><b id="excSwat">—</b></div>
+            <div class="bar"><div class="barFill" id="excBar"></div></div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Alerts</span>
+              <span class="badge" id="badgeAlerts">—</span>
+            </div>
+            <div class="log" id="alertsBox"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="centerPanel">
+        <div class="panelHeader">
+          <h2>Facility Flow Map</h2>
+          <div class="smallBtns">
+            <button class="tiny" data-action="priority">Priority: <span id="priorityLabel">—</span></button>
+            <button class="tiny" data-action="standdown">Safety stand-down</button>
+          </div>
+        </div>
+        <div class="panelBody">
+          <div id="flowMap"></div>
+          <div style="height:10px;"></div>
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Controls Snapshot</span>
+              <span class="badge" id="badgeControls">—</span>
+            </div>
+            <div class="row"><span>Break plan</span><b id="ctlBreak">—</b></div>
+            <div class="row"><span>Maintenance escalation</span><b id="ctlMaint">—</b></div>
+            <div class="row"><span>Stand-down remaining</span><b id="ctlStanddown">—</b></div>
+            <div class="row"><span>Compliance risk</span><b id="ctlCompliance">—</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="rightPanel">
+        <div class="panelHeader">
+          <h2>Labor Desk</h2>
+          <div class="smallBtns">
+            <button class="tiny" data-action="ot" data-delta="10">Call OT +10</button>
+            <button class="tiny" data-action="vto" data-delta="10">VTO -10</button>
+            <button class="tiny" data-action="delaybreak">Delay break +5m</button>
+            <button class="tiny" data-action="maintenance">Toggle maint</button>
+          </div>
+        </div>
+        <div class="panelBody">
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Roster</span>
+              <span class="badge" id="badgeRoster">—</span>
+            </div>
+            <div class="row"><span>Pool (unassigned)</span><b id="poolCount">—</b></div>
+            <div class="row"><span>In transit</span><b id="transitCount">—</b></div>
+            <div class="row"><span>Morale</span><b id="morale">—</b></div>
+            <div class="row"><span>Fatigue</span><b id="fatigue">—</b></div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Assignments</span>
+              <span class="badge" id="badgeAssign">—</span>
+            </div>
+            <div id="laborRows"></div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="card">
+            <div class="cardHeader">
+              <span class="name">Notes</span>
+              <span class="badge">MVP</span>
+            </div>
+            <div class="log">
+Controls:
+- ± buttons move headcount (arrives after 2 minutes).
+- Priority toggles SLA-first vs efficiency FIFO.
+- OT arrives after 3 minutes, costs more, hits compliance.
+- SWAT clears exceptions back into Sort input.
+- Extra line per process boosts rate, raises failure risk.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="bottom">
+      <div class="panel" style="overflow:hidden;">
+        <div class="panelHeader">
+          <h2>Timeline</h2>
+          <span class="badge" id="badgeTimeline">—</span>
+        </div>
+        <div class="panelBody">
+          <div id="timelineBox"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="overflow:hidden;">
+        <div class="panelHeader">
+          <h2>Action Log</h2>
+          <span class="badge" id="badgeLog">—</span>
+        </div>
+        <div class="panelBody">
+          <div class="log" id="logBox"></div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="overlay" class="hidden">
+    <div class="modal">
+      <div class="modalHeader">
+        <h3>End of shift recap</h3>
+        <div class="smallBtns">
+          <button id="btnCloseOverlay">Close</button>
+          <button id="btnOverlayRestart">Restart</button>
+        </div>
+      </div>
+      <div class="modalBody">
+        <div class="box">
+          <h4>Final score</h4>
+          <div class="big" id="finalScore">—</div>
+          <div class="row"><span>Rank</span><b id="finalRank">—</b></div>
+        </div>
+        <div class="box">
+          <h4>KPI breakdown</h4>
+          <div class="row"><span>Service</span><b id="scoreService">—</b></div>
+          <div class="row"><span>Cost</span><b id="scoreCost">—</b></div>
+          <div class="row"><span>Quality</span><b id="scoreQuality">—</b></div>
+          <div class="row"><span>Safety</span><b id="scoreSafety">—</b></div>
+          <div class="row"><span>People</span><b id="scorePeople">—</b></div>
+        </div>
+        <div class="box">
+          <h4>Outcome</h4>
+          <div class="row"><span>Demand</span><b id="outDemand">—</b></div>
+          <div class="row"><span>Shipped on time</span><b id="outOnTime">—</b></div>
+          <div class="row"><span>Late / backlog</span><b id="outLate">—</b></div>
+          <div class="row"><span>OT minutes</span><b id="outOT">—</b></div>
+          <div class="row"><span>Errors / rework</span><b id="outErr">—</b></div>
+          <div class="row"><span>Incidents</span><b id="outInc">—</b></div>
+        </div>
+        <div class="box explain">
+          <h4>Explain</h4>
+          <div class="log" id="explainBox"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

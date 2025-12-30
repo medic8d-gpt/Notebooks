@@ -9,15 +9,25 @@
         |___/                             |___/
 ```
 
-This repository is a lightweight collection of Jupyter notebooks and a few helper scripts used to discover, merge, and clean dataset notebooks and text files. The workspace lives in the `Notebooks/` folder and is organized minimally into `books/` (notebooks) and `code/` (utility scripts).
+This repository is a collection of Jupyter notebooks, web projects, documentation, and helper scripts used for data processing, web development, and automation workflows.
 
 **What this repo contains:**
-- **`books/`**: collection of user notebooks — data-processing, downloader helpers, and duplicate management notebooks.
-- **`code/`**: small utilities and helpers (filename normalizers, shell helpers).
+- **`books/`**: Jupyter notebooks for data-processing, downloader helpers, and duplicate management
+- **`code/`**: Small utilities and helpers (filename normalizers, shell helpers)
+- **`doc_shit/`**: Documentation, credentials, AI/GPT configs, and web code snippets
+- **`docs/`**: Markdown documentation converted from notebooks
+- **`gpt-site-builder/`**: Node.js web project for GPT-powered site building
+- **`kowledge_joe/`**: HTML research pages
+- **`ops-wall-mvp/`**: Operations dashboard MVP project
+- **`scripts/`**: Shell scripts for backup and automation
+- **`spotapp/`**: Spotify library editor applications
 
 **Quick Links** (files discovered in this workspace)
-- **Notebooks (`books/`)**: `rigt.ipynb`, `doc_to_db.ipynb`, `dupeshit.ipynb`, `find_dupes_hybrid.ipynb`, `colab_file_converter.ipynb`, `markdown_vector_embedder.ipynb`, `clay_city_times_2.ipynb`, `clay_city_times_vector_db.ipynb`, `articles_to_cleandb.ipynb`
-- **Scripts (`code/`)**: `ipynb_namer.py`, `snake_casey.py`, `usergroupmaker.sh`
+- **Root Notebooks**: [doc_to_db.ipynb](doc_to_db.ipynb)
+- **Notebooks (`books/`)**: [articles_to_cleandb.ipynb](books/articles_to_cleandb.ipynb), [clay_city_times_2.ipynb](books/clay_city_times_2.ipynb), [clay_city_times_vector_db.ipynb](books/clay_city_times_vector_db.ipynb), [colab_file_converter.ipynb](books/colab_file_converter.ipynb), [db_markdown.ipynb](books/db_markdown.ipynb), [doc_to_db.ipynb](books/doc_to_db.ipynb), [dupeshit.ipynb](books/dupeshit.ipynb), [find_dupes_hybrid.ipynb](books/find_dupes_hybrid.ipynb), [markdown_vector_embedder.ipynb](books/markdown_vector_embedder.ipynb), [thekygazzette.ipynb](books/thekygazzette.ipynb)
+- **Scripts (`code/`)**: [ipynb_namer.py](code/ipynb_namer.py), [snake_casey.py](code/snake_casey.py), [usergroupmaker.sh](code/usergroupmaker.sh)
+- **Web Projects**: [gpt-site-builder/](gpt-site-builder/), [ops-wall-mvp/](ops-wall-mvp/), [spotapp/](spotapp/)
+- **Documentation**: [docs/](docs/), [doc_shit/](doc_shit/)
 
 **Why this repo exists**
 - Centralize working notebooks and small scripts for text processing, archive downloads, and deduplication workflows.

@@ -1,0 +1,1555 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0b0f17" />
+  <title>Start</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --s: 0.95;
+      --bg0: #0b0f17;
+      --bg1: #0c1220;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.09);
+      --stroke: rgba(255,255,255,0.10);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.65);
+      --faint: rgba(255,255,255,0.45);
+      --good: rgba(104, 225, 170, 0.82);
+      --warn: rgba(235, 200, 140, 0.82);
+      --bad: rgba(235, 125, 150, 0.80);
+      --shadow: 0 18px 60px rgba(0,0,0,0.50);
+      --radius: calc(16px * var(--s));
+      --radius2: calc(12px * var(--s));
+      --pad: calc(14px * var(--s));
+      --gap: calc(14px * var(--s));
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --focus: 0 0 0 3px rgba(110, 170, 235, 0.24);
+      --ring: rgba(110, 170, 235, 0.50);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg0: #f6f8ff;
+        --bg1: #eef2ff;
+        --card: rgba(10,18,32,0.06);
+        --card2: rgba(10,18,32,0.10);
+        --stroke: rgba(10,18,32,0.10);
+        --text: rgba(10,18,32,0.92);
+        --muted: rgba(10,18,32,0.66);
+        --faint: rgba(10,18,32,0.48);
+        --shadow: 0 18px 60px rgba(10,18,32,0.18);
+        --focus: 0 0 0 3px rgba(50, 110, 220, 0.20);
+        --ring: rgba(50, 110, 220, 0.45);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 12% 10%, rgba(130, 200, 240, 0.06), transparent 60%),
+        radial-gradient(900px 600px at 85% 12%, rgba(170, 140, 230, 0.05), transparent 60%),
+        radial-gradient(900px 600px at 60% 90%, rgba(120, 220, 170, 0.04), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 520px) 1fr;
+      gap: var(--gap);
+      align-items: center;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .top > .card { padding: 14px 14px; }
+
+    .time {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-height: 64px;
+      justify-content: center;
+    }
+    .time .clock {
+      font-size: clamp(calc(18px * var(--s)), calc(2.0vw * var(--s)), calc(28px * var(--s)));
+      font-weight: 720;
+      letter-spacing: 0.3px;
+      line-height: 1.05;
+    }
+    .time .date {
+      font-size: calc(13px * var(--s));
+      color: var(--muted);
+    }
+    .time .tz {
+      font-family: var(--mono);
+      font-size: calc(12px * var(--s));
+      color: var(--faint);
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .search input {
+      width: 100%;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 14px;
+      outline: none;
+      font-size: calc(15px * var(--s));
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    }
+    .search input:focus {
+      box-shadow: var(--focus);
+      border-color: var(--ring);
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: calc(12px * var(--s));
+      color: var(--muted);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .chip b {
+      color: var(--text);
+      font-weight: 650;
+    }
+    .chip button {
+      border: none;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 8px;
+    }
+    .chip button:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+    .chip button:hover { background: rgba(255,255,255,0.06); }
+
+    .weather {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 64px;
+    }
+    .weather .main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .weather .temp {
+      font-size: calc(15px * var(--s));
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .weather .meta {
+      font-size: calc(12px * var(--s));
+      color: var(--muted);
+    }
+    .weather .err {
+      color: var(--warn);
+    }
+    .weather .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      display: grid;
+      place-items: center;
+      font-size: calc(18px * var(--s));
+    }
+
+    .grid {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: var(--gap);
+      align-items: start;
+    }
+
+    .panel {
+      padding: var(--pad);
+    }
+
+    .h {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 4px 0 12px;
+    }
+    .h h2 {
+      margin: 0;
+      font-size: calc(13px * var(--s));
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .btn {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-size: calc(13px * var(--s));
+      font-weight: 650;
+      user-select: none;
+    }
+    .btn:hover { background: rgba(255,255,255,0.08); }
+    .btn:focus-visible { outline: none; box-shadow: var(--focus); border-color: var(--ring); }
+    .btn.small { padding: 8px 10px; font-size: calc(12px * var(--s)); border-radius: 10px; }
+    .btn.ghost { background: transparent; }
+    .btn.danger { border-color: rgba(235,125,150,0.30); }
+    .btn.good { border-color: rgba(104,225,170,0.28); }
+
+    .stack {
+      display: grid;
+      gap: var(--gap);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 10px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+    }
+    .item:hover { background: rgba(255,255,255,0.06); }
+    .item a {
+      color: var(--text);
+      text-decoration: none;
+      display: block;
+      min-width: 0;
+    }
+    .item .t {
+      font-weight: 680;
+      font-size: calc(13px * var(--s));
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item .d {
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      color: var(--faint);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item .right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .iconbtn {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: calc(12px * var(--s));
+      user-select: none;
+    }
+    .iconbtn:hover { background: rgba(255,255,255,0.07); color: var(--text); }
+    .iconbtn:focus-visible { outline: none; box-shadow: var(--focus); border-color: var(--ring); }
+    .pin.on { color: var(--good); border-color: rgba(104,225,170,0.28); }
+
+    details {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    summary {
+      list-style: none;
+      padding: 12px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary .label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    summary .label b {
+      font-size: calc(13px * var(--s));
+      font-weight: 820;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    summary .label span {
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      color: var(--faint);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .sectionBody {
+      padding: 12px 12px 12px;
+      border-top: 1px solid var(--stroke);
+    }
+
+    .learnForm {
+      display: grid;
+      gap: 10px;
+    }
+    .learnForm input, .learnForm textarea {
+      width: 100%;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: calc(13px * var(--s));
+    }
+    .learnForm textarea { min-height: 72px; resize: vertical; }
+    .learnForm input:focus, .learnForm textarea:focus {
+      box-shadow: var(--focus);
+      border-color: var(--ring);
+    }
+
+    .learnRow {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 10px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+    }
+    .learnRow.done {
+      opacity: 0.65;
+      text-decoration: line-through;
+    }
+    .learnRow input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: rgba(110,170,235,0.85);
+    }
+    .learnRow .meta {
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      color: var(--faint);
+      margin-top: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .footerTips {
+      margin-top: 12px;
+      font-size: calc(12px * var(--s));
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    kbd {
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: var(--text);
+    }
+
+    /* Command palette */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 90px 16px 16px;
+      z-index: 99;
+    }
+    .overlay.on { display: flex; }
+    .palette {
+      width: min(820px, 100%);
+      border-radius: 18px;
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+    .palette .q {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--stroke);
+    }
+    .palette .q input {
+      width: 100%;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 12px;
+      outline: none;
+      font-size: calc(14px * var(--s));
+    }
+    .palette .q input:focus {
+      box-shadow: var(--focus);
+      border-color: var(--ring);
+    }
+    .palette .results {
+      max-height: min(52vh, 520px);
+      overflow: auto;
+      padding: 10px 10px 12px;
+    }
+    .res {
+      display: grid;
+      gap: 8px;
+    }
+    .res .r {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      cursor: pointer;
+      user-select: none;
+    }
+    .res .r:hover, .res .r.sel {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(110,170,235,0.30);
+    }
+    .res .r .left {
+      min-width: 0;
+    }
+    .res .r .tt {
+      font-size: calc(13px * var(--s));
+      font-weight: 720;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .res .r .ss {
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      color: var(--faint);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .res .r .tag {
+      font-family: var(--mono);
+      font-size: calc(11px * var(--s));
+      color: var(--muted);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 980px) {
+      .top {
+        grid-template-columns: 1fr;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="card time" id="timeCard">
+        <div class="clock" id="clock">--:--</div>
+        <div class="date" id="date">—</div>
+        <div class="tz" id="tz">—</div>
+      </div>
+
+      <div class="card">
+        <div class="search">
+          <input id="searchBox" type="text" autocomplete="off" spellcheck="false" placeholder="Search or type a URL…  ( / , Ctrl+K )" />
+          <div class="chip" title="Search engine (click to cycle)">
+            <b id="engineLabel">DDG</b>
+            <button id="engineBtn" aria-label="Change engine">↻</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card weather" id="weatherCard">
+        <div class="main">
+          <div class="temp" id="weatherTemp">Weather: …</div>
+          <div class="meta" id="weatherMeta">Location: …</div>
+        </div>
+        <div class="icon" id="weatherIcon">⛅</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="stack">
+        <div class="card panel">
+          <div class="h">
+            <h2>Gotos</h2>
+            <button class="btn small ghost" id="resetStatsBtn" title="Reset click stats">Reset</button>
+          </div>
+          <div class="list" id="pinnedList"></div>
+          <div style="height:10px"></div>
+          <div class="list" id="freqList"></div>
+          <div style="height:10px"></div>
+          <div class="list" id="recentList"></div>
+          <div class="footerTips">
+            Pins + stats live in <kbd>localStorage</kbd>. Click <kbd>Reset</kbd> to wipe stats only.
+          </div>
+        </div>
+
+        <div class="card panel">
+          <div class="h">
+            <h2>Learn queue</h2>
+            <div style="display:flex; gap:8px;">
+              <button class="btn small good" id="addLearnBtn">Add</button>
+              <button class="btn small ghost" id="exportBtn" title="Export state JSON">Export</button>
+            </div>
+          </div>
+
+          <div id="learnList" class="list"></div>
+
+          <details style="margin-top:12px;">
+            <summary>
+              <div class="label">
+                <b>Add / import</b>
+                <span>persisted</span>
+              </div>
+              <span class="chip"><b>+</b></span>
+            </summary>
+            <div class="sectionBody">
+              <div class="learnForm">
+                <input id="learnTitle" placeholder="Title (what to learn / do)" />
+                <input id="learnUrl" placeholder="URL (optional)" />
+                <textarea id="learnNotes" placeholder="Notes (optional)"></textarea>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="btn good" id="saveLearnBtn">Save</button>
+                  <button class="btn" id="importStateBtn" title="Import exported JSON">Import state</button>
+                  <input id="importStateFile" type="file" accept="application/json" style="display:none" />
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <div class="footerTips">
+            Shortcut: <kbd>a</kbd> adds focus to the Learn form when the page is focused.
+          </div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="card panel">
+          <div class="h">
+            <h2>Bookmarks</h2>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="btn small" id="toggleAllBtn">Expand/Collapse</button>
+              <button class="btn small ghost" id="importBmBtn" title="Import a bookmarks HTML export">Import</button>
+              <input id="importBmFile" type="file" accept="text/html" style="display:none" />
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap; align-items:center;">
+            <input id="bmFilter" type="text" placeholder="Filter bookmarks…" style="flex:1; min-width: 200px; border-radius: 12px; border:1px solid var(--stroke); background: rgba(255,255,255,0.04); color: var(--text); padding: 10px 12px; outline:none;" />
+            <div class="chip" title="Total bookmarks">
+              <b id="bmCount">0</b>
+              <span>items</span>
+            </div>
+            <div class="chip" title="Unique domains">
+              <b id="domainCount">0</b>
+              <span>domains</span>
+            </div>
+          </div>
+
+          <div id="bmSections" class="stack" style="gap: 12px;"></div>
+
+          <div class="footerTips">
+            Hotkeys: <kbd>/</kbd> focus search, <kbd>Ctrl</kbd>+<kbd>K</kbd> palette, <kbd>Esc</kbd> close palette.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+      <div class="q">
+        <input id="palInput" placeholder="Type to search bookmarks… (Enter opens, ↑/↓ navigate)" autocomplete="off" spellcheck="false" />
+        <button class="btn small ghost" id="palClose">Esc</button>
+      </div>
+      <div class="results">
+        <div class="res" id="palResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Built-in bookmarks from your uploaded exports (deduped)
+    const BUILTIN_BOOKMARKS = [{"category": "Domains & Projects", "domain": "debtcoder.dev", "title": "debtcoder.dev", "url": "https://debtcoder.dev/"}, {"category": "Domains & Projects", "domain": "lexingtonky.city", "title": "404 Not Found", "url": "http://lexingtonky.city/"}, {"category": "Domains & Projects", "domain": "lexsync.org", "title": "Lexington News Reddit API - Swagger UI", "url": "https://lexsync.org/api/docs"}, {"category": "Domains & Projects", "domain": "lexsync.org", "title": "Welcome to lexsync.org", "url": "https://lexsync.org/"}, {"category": "Domains & Projects", "domain": "medic8d.cloud", "title": "404 Not Found", "url": "http://medic8d.cloud/"}, {"category": "Domains & Projects", "domain": "medic8d.rest", "title": "404 Not Found", "url": "http://medic8d.rest/"}, {"category": "Domains & Projects", "domain": "medic8dapi.rest", "title": "404 Not Found", "url": "http://medic8dapi.rest/"}, {"category": "Domains & Projects", "domain": "moonshit.dev", "title": "LexKY GPTs Ops Dashboard", "url": "https://moonshit.dev/"}, {"category": "Domains & Projects", "domain": "moonshit.rest", "title": "404 Not Found", "url": "http://moonshit.rest/"}, {"category": "Domains & Projects", "domain": "newslexington.us", "title": "porkbun.com | parked domain", "url": "http://newslexington.us/"}, {"category": "Domains & Projects", "domain": "pastekey.app", "title": "Privacy error", "url": "https://pastekey.app/"}, {"category": "Domains & Projects", "domain": "st8shitshow.cloud", "title": "Vite + Vue + TS", "url": "https://st8shitshow.cloud/"}, {"category": "Domains & Projects", "domain": "st8shitshow.work", "title": "ST8 • Incoming Transmission", "url": "https://st8shitshow.work/"}, {"category": "Domains & Projects", "domain": "stateofshit.com", "title": "StateOfShit.com — For Sale", "url": "https://stateofshit.com/"}, {"category": "Domains & Projects", "domain": "stateofshit.live", "title": "404 Not Found", "url": "http://stateofshit.live/"}, {"category": "Domains & Projects", "domain": "stateofshit.net", "title": "Privacy error", "url": "https://stateofshit.net/"}, {"category": "Domains & Projects", "domain": "stateofshit.online", "title": "Privacy error", "url": "https://stateofshit.online/"}, {"category": "Domains & Projects", "domain": "stateofshit.rest", "title": "404 Not Found", "url": "http://stateofshit.rest/"}, {"category": "Domains & Projects", "domain": "stateofshit.space", "title": "404 Not Found", "url": "http://stateofshit.space/"}, {"category": "Domains & Projects", "domain": "www.lexkynews.com", "title": "LexKY News API Docs", "url": "https://www.lexkynews.com/api/analyitcs"}, {"category": "Domains & Projects", "domain": "www.lexkynews.com", "title": "Server Statistics", "url": "https://www.lexkynews.com/api/analytics/"}, {"category": "Domains & Projects", "domain": "www.reddit.com", "title": "debtcodersdojo", "url": "https://www.reddit.com/r/debtcodersdojo/"}, {"category": "Hosting / Admin", "domain": "app.todoist.com", "title": "Log in to Todoist", "url": "https://app.todoist.com/auth/login?success_page=%2Fapp%2Fsettings%2Fintegrations%2Fbrowse"}, {"category": "Hosting / Admin", "domain": "billing.hudsonvalleyhost.com", "title": "Login - Hudson Valley Host", "url": "https://billing.hudsonvalleyhost.com/index.php?rp=/login"}, {"category": "Hosting / Admin", "domain": "chat.qwen.ai", "title": "Qwen", "url": "https://chat.qwen.ai/c/guest"}, {"category": "Hosting / Admin", "domain": "dash.cloudflare.com", "title": "Account home | Debtcoder@gmail.com's Account | Cloudflare", "url": "https://dash.cloudflare.com/1d3bb9b45bec7037f28a62e6ef2461c2/home/domains"}, {"category": "Hosting / Admin", "domain": "docs.quark.bot", "title": "Introduction - Quark", "url": "https://docs.quark.bot/api-reference/introduction"}, {"category": "Hosting / Admin", "domain": "duckduckgo.com", "title": "api at DuckDuckGo", "url": "https://duckduckgo.com/?q=api&rpl=1&ia=web"}, {"category": "Hosting / Admin", "domain": "leon.feralhosting.com", "title": "Plex", "url": "http://leon.feralhosting.com:18392/web/index.html#!/"}, {"category": "Hosting / Admin", "domain": "leon.feralhosting.com", "title": "qBittorrent Web UI", "url": "https://leon.feralhosting.com/thecoolzone/qbittorrent/"}, {"category": "Hosting / Admin", "domain": "mailtrap.io", "title": "Mailtrap - Email Delivery Platform", "url": "https://mailtrap.io/signin"}, {"category": "Hosting / Admin", "domain": "my.contabo.com", "title": "Customer Control Panel - Contabo", "url": "https://my.contabo.com/account/login"}, {"category": "Hosting / Admin", "domain": "notebooklm.google.com", "title": "NotebookLM", "url": "https://notebooklm.google.com/?utm_source=1pnlm&utm_medium=web&utm_campaign=nlm_site_home_cta&utm_smc=1pnlm_web_nlm_site_home_cta&utm_content=&_gl=1*1ua77j1*_up*MQ..*_ga*MTkyNDY0NTk0NS4xNzU5ODQ1NTY4*_ga_W0LDH41ZCB*czE3NTk4NDU1NjckbzEkZzAkdDE3NTk4NDU1NjckajYwJGwwJGgw&gclid=Cj0KCQjw9JLHBhC-ARIsAK4PhcrBbWwviLZVeJZ3urcS2ssMYEEwlgn4le8PnmOjuX-SwiXXP7dWxy4aAufGEALw_wcB&original_referer=https:%2F%2Fnotebooklm.google%23&pli=1"}, {"category": "Hosting / Admin", "domain": "panel.ihostart.com", "title": "Login - iHostART.Com", "url": "https://panel.ihostart.com/index.php?rp=/login"}, {"category": "Hosting / Admin", "domain": "substack.com", "title": "Explore | Substack", "url": "https://substack.com/browse/staff-picks?redirect=%2Fabout"}, {"category": "Hosting / Admin", "domain": "us4.limitlesshost.us", "title": "us4.limitlesshost.us | Dashboard", "url": "https://us4.limitlesshost.us:2222/evo/"}, {"category": "Hosting / Admin", "domain": "www.cloudserver.net", "title": "Client Area - Cloud Server", "url": "https://www.cloudserver.net/billing/clientarea.php"}, {"category": "AI / LLM", "domain": "chatgpt.com", "title": "ChatGPT", "url": "https://chatgpt.com/gpts/mine"}, {"category": "AI / LLM", "domain": "chatgpt.com", "title": "ChatGPT - Debt Coder", "url": "https://chatgpt.com/g/g-68c61f8bc99881918cfa1bd86c66c1fb-debt-coder/c/68e53511-096c-8333-8c33-a916c58465b5"}, {"category": "AI / LLM", "domain": "chatgpt.com", "title": "Codex", "url": "https://chatgpt.com/codex/onboarding/environment"}, {"category": "AI / LLM", "domain": "notebooklm.google.com", "title": "NotebookLM", "url": "https://notebooklm.google.com/"}, {"category": "AI / LLM", "domain": "platform.openai.com", "title": "Data controls — sharing - OpenAI API", "url": "https://platform.openai.com/settings/organization/data-controls/sharing"}, {"category": "AI / LLM", "domain": "seed.bytedance.com", "title": "Seedream", "url": "https://seed.bytedance.com/en/seedream4_0"}, {"category": "Dev / Code", "domain": "cli.github.com", "title": "GitHub CLI | Take GitHub to the command line", "url": "https://cli.github.com/manual/gh_auth_token"}, {"category": "Dev / Code", "domain": "colab.research.google.com", "title": "Enhanced Knowledge v2.6 (Archival & Splitting Edition) - Colab", "url": "https://colab.research.google.com/drive/1S9Zd-osK3qgeQnbV01SkqvGEFIAmJgwI#scrollTo=jEr5oL_x_hYs"}, {"category": "Dev / Code", "domain": "colab.research.google.com", "title": "scratchpad - Colab", "url": "https://colab.research.google.com/notebooks/empty.ipynb"}, {"category": "Dev / Code", "domain": "colab.research.google.com", "title": "scratchpad - Colab", "url": "https://colab.research.google.com/#scrollTo=ZLgumvFQIXM4"}, {"category": "Dev / Code", "domain": "github.com", "title": "GitHub - google-gemini/gemini-cli: An open-source AI agent that brings the power of Gemini directly into your terminal.", "url": "https://github.com/google-gemini/gemini-cli"}, {"category": "Dev / Code", "domain": "github.com", "title": "ItIsMeCall911/Course-Piracy-Index: Course Piracy Index 🏴‍☠️", "url": "https://github.com/ItIsMeCall911/Course-Piracy-Index"}, {"category": "Dev / Code", "domain": "github.com", "title": "codex/docs/advanced.md at main · openai/codex", "url": "https://github.com/openai/codex/blob/main/docs/advanced.md#model-context-protocol-mcp"}, {"category": "Design / UI", "domain": "app.diagrams.net", "title": "Flowchart Maker & Online Diagram Software", "url": "https://app.diagrams.net/"}, {"category": "Design / UI", "domain": "collectui.com", "title": "Collect UI - Daily inspiration collected from daily ui archive and beyond. Based on Dribbble shots, hand picked, updating daily.", "url": "https://collectui.com/"}, {"category": "Design / UI", "domain": "colorhunt.co", "title": "Color Palettes for Designers and Artists - Color Hunt", "url": "https://colorhunt.co/"}, {"category": "Design / UI", "domain": "coolors.co", "title": "https://coolors.co/d4e09b-f6f4d2-cbdfbd-f19c79-a44a3f", "url": "https://coolors.co/d4e09b-f6f4d2-cbdfbd-f19c79-a44a3f"}, {"category": "Design / UI", "domain": "htmlboilerplates.com", "title": "HTML Boilerplates", "url": "https://htmlboilerplates.com/"}, {"category": "Design / UI", "domain": "www.getcolorlab.com", "title": "Color Palette Generator: Create, Customize & Export Palettes", "url": "https://www.getcolorlab.com/color-palette-generator"}, {"category": "Music & Practice", "domain": "avcssguitarworld.com", "title": "Bass Guitar Chord Progressions, Increase your Improvising Skills", "url": "https://avcssguitarworld.com/bass-chord-progressions/"}, {"category": "Music & Practice", "domain": "docs.google.com", "title": "Public Domain Songs - Google Sheets", "url": "https://docs.google.com/spreadsheets/d/1JCTFB4vRPyrWq198VuZ6B3gJIB1qTQ0D3iUOLDJLPic/edit#gid=0"}, {"category": "Music & Practice", "domain": "mastering.com", "title": "Chord Progressions: Writing Hit Songs Made Easy July 2024", "url": "https://mastering.com/chord-progressions/"}, {"category": "Music & Practice", "domain": "theguitarpages.com", "title": "TGP: » Volume, Gain, Master Volume: Set Correctly on Your Guitar Amp", "url": "https://theguitarpages.com/volume-gain-master-volume-set-correctly-on-your-guitar-amp/"}, {"category": "Music & Practice", "domain": "www.all-guitar-chords.com", "title": "Guitar Scales", "url": "https://www.all-guitar-chords.com/scales"}, {"category": "Music & Practice", "domain": "www.drumeo.com", "title": "Drum Beats Everyone Should Know - Drumeo Beat", "url": "https://www.drumeo.com/beat/drum-beats-everyone-should-know/#funk-drum-beats"}, {"category": "Music & Practice", "domain": "www.google.com", "title": "billy the kid song public domain - Google Search", "url": "https://www.google.com/search?q=billy+the+kid+song+public+domain&sca_esv=0f432c479ba1e607&sca_upv=1&rlz=1C1GCEA_enUS1108US1108&sxsrf=ADLYWIIL0WEEtIbN1boT45IAPuhHJGdU1Q%3A1716393096653&ei=iBROZtLCJ9CdptQPtJqqiA0&oq=billy+the+kid+song+pub&gs_lp=Egxnd3Mtd2l6LXNlcnAiFmJpbGx5IHRoZSBraWQgc29uZyBwdWIqAggAMgUQIRigATIFECEYoAEyBRAhGKABSO5yUIEBWJdscAJ4AZABAJgBmgGgAYcEqgEDMC40uAEDyAEA-AEBmAIGoAK6BMICChAAGLADGNYEGEfCAg0QABiABBiwAxhDGIoFwgIQEC4YgAQYsAMYQxjUAhiKBcICDhAAGLADGOQCGNYE2AEBwgITEC4YgAQYsAMYQxjIAxiKBdgBAsICFhAuGIAEGLADGEMY1AIYyAMYigXYAQLCAgoQABiABBgUGIcCwgIFEC4YgATCAgUQABiABMICChAAGIAEGEMYigXCAgsQABiABBiGAxiKBcICBhAAGBYYHsICCBAAGIAEGKIEmAMAiAYBkAYTugYGCAEQARgJugYGCAIQARgIkgcDMi40oAfiGw&sclient=gws-wiz-serp#fpstate=ive&vld=cid:20a20313,vid:IVGpNRAErlc,st:0"}, {"category": "Music & Practice", "domain": "www.guitarhabits.com", "title": "15 Easy Beginner Jazz Guitar Chords - GUITARHABITS", "url": "https://www.guitarhabits.com/15-easy-beginner-jazz-guitar-chords/"}, {"category": "Music & Practice", "domain": "www.jazzguitar.be", "title": "17 Easy Jazz Guitar Chords (Tabs & Chord Charts)", "url": "https://www.jazzguitar.be/blog/17-essential-jazz-guitar-chords-beginners/"}, {"category": "Music & Practice", "domain": "www.jazzguitar.be", "title": "7 Easy Jazz Guitar Scales For Beginners", "url": "https://www.jazzguitar.be/blog/easy-jazz-guitar-scales/"}, {"category": "Music & Practice", "domain": "www.jazzguitar.be", "title": "https://www.jazzguitar.be/blog/guitar-arpeggios/", "url": "https://www.jazzguitar.be/blog/guitar-arpeggios/"}, {"category": "Music & Practice", "domain": "www.pianoscales.org", "title": "Printable piano scales", "url": "https://www.pianoscales.org/printable.html"}, {"category": "Music & Practice", "domain": "www.premierguitar.com", "title": "Ultimate Guide to the Nashville Number System - Premier Guitar", "url": "https://www.premierguitar.com/lessons/chords/nashville-number-system"}, {"category": "Music & Practice", "domain": "www.reddit.com", "title": "How to get great guitar tones on ableton : r/ableton", "url": "https://www.reddit.com/r/ableton/comments/14ihuj1/how_to_get_great_guitar_tones_on_ableton/"}, {"category": "Music & Practice", "domain": "www.ultimate-guitar.com", "title": "ULTIMATE GUITAR TABS - 1,100,000 songs catalog with free Chords, Guitar Tabs, Bass Tabs, Ukulele Chords and Guitar Pro Tabs!", "url": "https://www.ultimate-guitar.com/"}, {"category": "Music & Practice", "domain": "www.youtube.com", "title": "Finally Learning How To Set A Guitar Up - YouTube", "url": "https://www.youtube.com/watch?v=Wip_5dYKdIE&t=290s"}, {"category": "Social", "domain": "open.spotify.com", "title": "Spotify – Web Player", "url": "https://open.spotify.com/user/c6y04qhytzjjfb4oad7fl8bsw?si=c6e4038040cf4f0f&nd=1&dlsi=13b45c02e6e54731"}, {"category": "Social", "domain": "open.spotify.com", "title": "Spotify – cathop213", "url": "https://open.spotify.com/user/g7klfoxjnw1h1haqxus759rmh?si=313bfef8288b4696&nd=1&dlsi=15c6c99e2394452f"}, {"category": "Social", "domain": "open.spotify.com", "title": "Spotify – forty1thirty6", "url": "https://open.spotify.com/user/forty1thirty6?si=1b61dbe797a14480&nd=1&dlsi=9b4743b20d08482b"}, {"category": "Social", "domain": "open.spotify.com", "title": "Spotify – hopcat213", "url": "https://open.spotify.com/user/hopcat213?si=b8b018a4c9074e92&nd=1&dlsi=5bf0c08397764eeb"}, {"category": "Social", "domain": "www.facebook.com", "title": "Facebook", "url": "https://www.facebook.com/steenspringmusic"}, {"category": "Social", "domain": "www.reddit.com", "title": "Reddit - Dive into anything", "url": "https://www.reddit.com/"}, {"category": "Social", "domain": "www.reddit.com", "title": "preferences (reddit.com)", "url": "https://www.reddit.com/prefs/apps?solution=0327268502ca370e0327268502ca370e&js_challenge=1&token=54dba411ecc9fd270bca6277dc2a43617d087a647c18b7cee05d24b29a2f1c9b"}, {"category": "Gov / Local", "domain": "216.7.132.156", "title": "Fayette County Clerk | Lexington, KY | Home Page", "url": "https://216.7.132.156/"}, {"category": "Gov / Local", "domain": "www.education.ky.gov", "title": "Homepage - Kentucky Department of Education", "url": "https://www.education.ky.gov/Pages/default.aspx"}, {"category": "Gov / Local", "domain": "www.kentuckynewera.com", "title": "Kentucky New Era | News that hits home", "url": "https://www.kentuckynewera.com/"}, {"category": "Gov / Local", "domain": "www.lfchd.org", "title": "Food Protection and Restaurant Inspections", "url": "https://www.lfchd.org/food-protection/"}, {"category": "Maps / Local", "domain": "www.google.com", "title": "Kentucky Gang Map (2025) - Google My Maps", "url": "https://www.google.com/maps/d/u/0/viewer?mid=1zchNIAmBYMORcm0u_WYvI4qljDjkgxI&ll=38.10070549038589%2C-84.45985130580436&z=13"}, {"category": "SDR / Radio", "domain": "austinsnerdythings.com", "title": "Getting Started With SDR (software defined radio): Tutorial - Austin's Nerdy Things", "url": "https://austinsnerdythings.com/2021/09/11/getting-started-with-sdr-software-defined-radio-a-tutorial/"}, {"category": "SDR / Radio", "domain": "www.rtl-sdr.com", "title": "SDRSharp Users Guide", "url": "https://www.rtl-sdr.com/sdrsharp-users-guide/"}, {"category": "Audio Tools", "domain": "vb-audio.com", "title": "ownload", "url": "https://vb-audio.com/Cable/"}, {"category": "Work / Accounts", "domain": "atoz-login.amazon.work", "title": "Amazon A to Z Login", "url": "https://atoz-login.amazon.work/?source=ac"}, {"category": "Work / Accounts", "domain": "atozworkforce.idprism-auth.amazon.com", "title": "Amazon IdPrism", "url": "https://atozworkforce.idprism-auth.amazon.com/?client_id=36eb297db69e3157c9f85ca8ad&nonce=P251029150347783IADHVTHV9DIQGMW&redirect_uri=https%3A%2F%2Fidp.federate.amazon.com%2Fapi%2Fv1%2Fintermediate&relying_party=atoz.web.prod.clientid&response_type=code&scope=openid&state=us-east-1_P251029150347783IADHVTHV9DIQGMW_bbdaf580-c709-4f83-83da-e6d49d24454a"}, {"category": "Work / Accounts", "domain": "www.usbankfocus.com", "title": "My Login", "url": "https://www.usbankfocus.com/"}, {"category": "Torrents / P2P", "domain": "digitalcore.club", "title": "Music Torrents", "url": "https://digitalcore.club/music#top"}, {"category": "Torrents / P2P", "domain": "fearnopeer.com", "title": "Torrents - FNP", "url": "https://fearnopeer.com/torrents?perPage=25"}, {"category": "Torrents / P2P", "domain": "github.com", "title": "GitHub - ngosang/trackerslist: Updated list of public BitTorrent trackers", "url": "https://github.com/ngosang/trackerslist"}, {"category": "Torrents / P2P", "domain": "proxyninja.org", "title": "Just a moment...", "url": "https://proxyninja.org/?__cf_chl_rt_tk=LEIdopP3QG1Fak7HEgS1j88Rm2mlgJnc3W9F6wLiKLs-1706060981-0-gaNycGzNDTs"}, {"category": "Torrents / P2P", "domain": "redacted.sh", "title": "Browse Torrents :: Redacted", "url": "https://redacted.sh/torrents.php?order_by=time&order_way=desc&group_results=1&filter_cat%5B2%5D=1&action=advanced&searchsubmit=1"}, {"category": "Torrents / P2P", "domain": "torrentquest.com", "title": "Download Music (506,860 Results) Page 1 - TorrentQuest", "url": "https://torrentquest.com/download/music/"}, {"category": "Torrents / P2P", "domain": "www.reddit.com", "title": "torrent - FREEMEDIAHECKYEAH", "url": "https://www.reddit.com/r/FREEMEDIAHECKYEAH/wiki/torrent/"}, {"category": "Torrents / P2P", "domain": "www.srrdb.com", "title": "Index - srrDB", "url": "https://www.srrdb.com/"}, {"category": "Misc / Random", "domain": "brandedleaf.store", "title": "All Products – Branded Leaf Supplements", "url": "https://brandedleaf.store/product-category/all-products/"}, {"category": "Misc / Random", "domain": "caveconservation.com", "title": "\"Free Floyd Collins\" t-shirt", "url": "https://caveconservation.com/product/free-floyd-collins-t-shirt/"}, {"category": "Misc / Random", "domain": "community.mp3tag.de", "title": "replacing spaces with underscores in filename - Support - Mp3tag Community", "url": "https://community.mp3tag.de/t/replacing-spaces-with-underscores-in-filename/4889"}, {"category": "Misc / Random", "domain": "pp-wfe-100.advancedmd.com", "title": "Advanced MD | Patient Portal", "url": "https://pp-wfe-100.advancedmd.com/140103/account/logon"}, {"category": "Misc / Random", "domain": "www.google.com", "title": "Google Advanced Search", "url": "https://www.google.com/advanced_search"}, {"category": "Local / IP", "domain": "98.123.139.110", "title": "AXIS P3265-LV Dome Camera", "url": "http://98.123.139.110:10003/camera/index.html#/video"}, {"category": "Misc", "domain": "lexingtonky.forum", "title": "404 Not Found", "url": "http://lexingtonky.forum/"}, {"category": "Misc", "domain": "lexsyncton.org", "title": "404 Not Found", "url": "http://lexsyncton.org/"}, {"category": "Browser / Firefox", "domain": "support.mozilla.org", "title": "Customize Firefox", "url": "https://support.mozilla.org/kb/customize-firefox-controls-buttons-and-toolbars?utm_source=firefox-browser&utm_medium=default-bookmarks&utm_campaign=customize"}, {"category": "Browser / Firefox", "domain": "support.mozilla.org", "title": "Get Help", "url": "https://support.mozilla.org/products/firefox"}, {"category": "Browser / Firefox", "domain": "www.mozilla.org", "title": "About Us", "url": "https://www.mozilla.org/about/"}, {"category": "Browser / Firefox", "domain": "www.mozilla.org", "title": "Get Involved", "url": "https://www.mozilla.org/contribute/"}];
+
+    const STATE_KEY = "debtcoder_startpage_state_v1";
+    const defaultState = {
+      version: 1,
+      settings: {
+        engine: "ddg",         // ddg | google | brave | yt
+        tempUnit: "F",         // C | F
+        weatherAuto: true,
+        showSeconds: true,
+        maxPinned: 8,
+        maxFreq: 10,
+        maxRecent: 10,
+      },
+      pinned: {},           // url -> true
+      visits: {},           // url -> {count,last}
+      recents: [],            // [{url,ts}]
+      learn: [],              // learn items
+      customBookmarks: [],    // imported bookmarks
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STATE_KEY);
+        if (!raw) return structuredClone(defaultState);
+        const s = JSON.parse(raw);
+        return deepMerge(structuredClone(defaultState), s);
+      } catch {
+        return structuredClone(defaultState);
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STATE_KEY, JSON.stringify(state));
+    }
+
+    function deepMerge(a, b) {
+      if (b === null || b === undefined) return a;
+      if (Array.isArray(a) && Array.isArray(b)) return b;
+      if (typeof a === "object" && typeof b === "object") {
+        for (const k of Object.keys(b)) {
+          if (k in a) a[k] = deepMerge(a[k], b[k]);
+          else a[k] = b[k];
+        }
+        return a;
+      }
+      return b;
+    }
+
+    let state = loadState();
+
+    const ENGINES = [
+      { key: "ddg", label: "DDG", url: (q) => `https://duckduckgo.com/?q=${encodeURIComponent(q)}` },
+      { key: "google", label: "G", url: (q) => `https://www.google.com/search?q=${encodeURIComponent(q)}` },
+      { key: "brave", label: "Brave", url: (q) => `https://search.brave.com/search?q=${encodeURIComponent(q)}` },
+      { key: "yt", label: "YT", url: (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}` },
+    ];
+
+    function currentEngine() {
+      return ENGINES.find(e => e.key === state.settings.engine) || ENGINES[0];
+    }
+
+    function setEngine(nextKey) {
+      state.settings.engine = nextKey;
+      document.getElementById("engineLabel").textContent = currentEngine().label;
+      saveState();
+    }
+
+    function cycleEngine() {
+      const idx = ENGINES.findIndex(e => e.key === state.settings.engine);
+      const next = ENGINES[(idx + 1) % ENGINES.length];
+      setEngine(next.key);
+    }
+
+    function fmtDomain(url) {
+      try {
+        const u = new URL(url);
+        return u.hostname.replace(/^www\./, "");
+      } catch {
+        return "—";
+      }
+    }
+
+    function safeNow() {
+      return Date.now();
+    }
+
+    function track(url) {
+      const v = state.visits[url] || { count: 0, last: 0 };
+      v.count += 1;
+      v.last = safeNow();
+      state.visits[url] = v;
+
+      state.recents = [{
+        url,
+        ts: v.last
+      }, ...state.recents.filter(r => r.url !== url)].slice(0, 80);
+
+      saveState();
+      renderGotos();
+    }
+
+    function openUrl(url) {
+      track(url);
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function isPinned(url) {
+      return !!state.pinned[url];
+    }
+
+    function togglePin(url) {
+      if (state.pinned[url]) delete state.pinned[url];
+      else state.pinned[url] = true;
+      saveState();
+      renderAll();
+    }
+
+    function resetStats() {
+      state.visits = {};
+      state.recents = [];
+      saveState();
+      renderGotos();
+    }
+
+    function allBookmarks() {
+      // Merge built-in + imported, dedupe by URL
+      const merged = [...BUILTIN_BOOKMARKS, ...(state.customBookmarks || [])];
+      const seen = new Set();
+      const out = [];
+      for (const b of merged) {
+        const u = (b.url || "").trim();
+        if (!u || seen.has(u)) continue;
+        seen.add(u);
+        out.push({
+          category: b.category || "Imported",
+          domain: b.domain || fmtDomain(u),
+          title: (b.title || u).trim(),
+          url: u
+        });
+      }
+      return out;
+    }
+
+    function computeCounts(bookmarks) {
+      const domains = new Set(bookmarks.map(b => (b.domain || "").toLowerCase()).filter(Boolean));
+      document.getElementById("bmCount").textContent = String(bookmarks.length);
+      document.getElementById("domainCount").textContent = String(domains.size);
+    }
+
+    function scoreMatch(q, text) {
+      // small fuzzy-ish scorer (fast, no deps)
+      // returns higher score for earlier + tighter matches
+      q = q.toLowerCase().trim();
+      text = text.toLowerCase();
+      if (!q) return 0;
+      if (text === q) return 1000;
+      const idx = text.indexOf(q);
+      if (idx >= 0) return 700 - idx;
+      // token partials
+      const parts = q.split(/\s+/).filter(Boolean);
+      let s = 0;
+      for (const p of parts) {
+        const i = text.indexOf(p);
+        if (i >= 0) s += 200 - Math.min(i, 180);
+      }
+      return s;
+    }
+
+    function renderGotos() {
+      const bookmarks = allBookmarks();
+      const pinned = bookmarks.filter(b => isPinned(b.url)).slice(0, state.settings.maxPinned);
+
+      const freq = bookmarks
+        .map(b => {
+          const v = state.visits[b.url]?.count || 0;
+          const last = state.visits[b.url]?.last || 0;
+          return {...b, v, last};
+        })
+        .filter(b => b.v > 0 && !isPinned(b.url))
+        .sort((a,b) => b.v - a.v || b.last - a.last)
+        .slice(0, state.settings.maxFreq);
+
+      const recentUrls = state.recents.slice(0, state.settings.maxRecent).map(r => r.url);
+      const recent = recentUrls
+        .map(u => bookmarks.find(b => b.url === u))
+        .filter(Boolean)
+        .filter(b => !isPinned(b.url));
+
+      const pinnedList = document.getElementById("pinnedList");
+      const freqList = document.getElementById("freqList");
+      const recentList = document.getElementById("recentList");
+
+      pinnedList.innerHTML = pinned.length ? pinned.map(bmItemHTML).join("") : "<div style='color:var(--muted); font-size: calc(13px * var(--s));'>No pinned links yet. Pin with <span style=\"font-family:var(--mono)\">PIN</span>.</div>";
+      freqList.innerHTML = freq.length ? freq.map(bmItemHTML).join("") : "<div style='color:var(--muted); font-size: calc(13px * var(--s));'>No stats yet. Click bookmarks and this fills automatically.</div>";
+      recentList.innerHTML = recent.length ? recent.map(bmItemHTML).join("") : "<div style='color:var(--muted); font-size: calc(13px * var(--s));'>No recent clicks yet.</div>";
+
+      bindItemActions(pinnedList);
+      bindItemActions(freqList);
+      bindItemActions(recentList);
+    }
+
+    function bmItemHTML(b) {
+      const pinClass = isPinned(b.url) ? "iconbtn pin on" : "iconbtn pin";
+      const pinLabel = isPinned(b.url) ? "UNPIN" : "PIN";
+      const dom = (b.domain || fmtDomain(b.url));
+      const t = escapeHTML(b.title || b.url);
+      const u = escapeHTML(b.url);
+      const d = escapeHTML(dom);
+      return `
+        <div class="item" data-url="${u}">
+          <a href="${u}" target="_blank" rel="noopener noreferrer" data-open="1">
+            <div class="t">${t}</div>
+            <div class="d">${d}</div>
+          </a>
+          <div class="right">
+            <button class="${pinClass}" data-pin="1" title="Pin/unpin">${pinLabel}</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function bindItemActions(root) {
+      root.querySelectorAll("[data-open]").forEach(a => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const url = a.closest("[data-url]")?.getAttribute("data-url");
+          if (url) openUrl(url);
+        });
+      });
+      root.querySelectorAll("[data-pin]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const url = btn.closest("[data-url]")?.getAttribute("data-url");
+          if (url) togglePin(url);
+        });
+      });
+    }
+
+    function escapeHTML(s) {
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll("\"","&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function groupByCategory(bookmarks) {
+      const map = new Map();
+      for (const b of bookmarks) {
+        const cat = b.category || "Other";
+        if (!map.has(cat)) map.set(cat, []);
+        map.get(cat).push(b);
+      }
+      // stable sort: categories by size desc, then name
+      const cats = [...map.entries()].sort((a,b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+      for (const [k, arr] of cats) {
+        arr.sort((x,y) =>
+          (x.domain || "").localeCompare(y.domain || "") ||
+          (x.title || "").localeCompare(y.title || "")
+        );
+      }
+      return cats;
+    }
+
+    let allExpanded = true;
+
+    function renderBookmarks() {
+      const filter = document.getElementById("bmFilter").value.trim().toLowerCase();
+      const bookmarks = allBookmarks();
+      computeCounts(bookmarks);
+
+      const filtered = !filter ? bookmarks : bookmarks.filter(b => {
+        const hay = `${b.title} ${b.domain} ${b.url} ${b.category}`.toLowerCase();
+        return hay.includes(filter);
+      });
+
+      const cats = groupByCategory(filtered);
+      const root = document.getElementById("bmSections");
+      root.innerHTML = "";
+
+      for (const [cat, items] of cats) {
+        const section = document.createElement("details");
+        section.open = allExpanded;
+
+        const sum = document.createElement("summary");
+        sum.innerHTML = `
+          <div class="label">
+            <b>${escapeHTML(cat)}</b>
+            <span>${items.length}</span>
+          </div>
+          <span class="chip"><b>↵</b></span>
+        `;
+        section.appendChild(sum);
+
+        const body = document.createElement("div");
+        body.className = "sectionBody";
+        const list = document.createElement("div");
+        list.className = "list";
+        list.innerHTML = items.map(bmItemHTML).join("");
+        body.appendChild(list);
+        section.appendChild(body);
+
+        root.appendChild(section);
+
+        bindItemActions(list);
+      }
+    }
+
+    // Learn queue
+    function newId() {
+      return Math.random().toString(16).slice(2) + "-" + Date.now().toString(16);
+    }
+
+    function addLearnItem({title, url, notes}) {
+      const item = {
+        id: newId(),
+        title: title.trim(),
+        url: (url || "").trim(),
+        notes: (notes || "").trim(),
+        done: false,
+        createdAt: safeNow(),
+        doneAt: 0
+      };
+      state.learn = [item, ...(state.learn || [])];
+      saveState();
+      renderLearn();
+    }
+
+    function toggleLearn(id) {
+      const it = (state.learn || []).find(x => x.id === id);
+      if (!it) return;
+      it.done = !it.done;
+      it.doneAt = it.done ? safeNow() : 0;
+      saveState();
+      renderLearn();
+    }
+
+    function deleteLearn(id) {
+      state.learn = (state.learn || []).filter(x => x.id !== id);
+      saveState();
+      renderLearn();
+    }
+
+    function renderLearn() {
+      const root = document.getElementById("learnList");
+      const items = (state.learn || []);
+      if (!items.length) {
+        root.innerHTML = "<div style='color:var(--muted); font-size: calc(13px * var(--s));'>Empty. Add items you want to learn/do.</div>";
+        return;
+      }
+      root.innerHTML = items.slice(0, 20).map(it => {
+        const url = it.url ? escapeHTML(it.url) : "";
+        const title = escapeHTML(it.title);
+        const notes = it.notes ? escapeHTML(it.notes) : "";
+        const meta = it.url ? escapeHTML(fmtDomain(it.url)) : "no url";
+        const doneClass = it.done ? "learnRow done" : "learnRow";
+        return `
+          <div class="${doneClass}" data-learn="${escapeHTML(it.id)}">
+            <input type="checkbox" ${it.done ? "checked" : ""} data-learn-toggle="1" />
+            <div style="min-width:0;">
+              <div style="font-weight:720; font-size: calc(13px * var(--s)); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${title}</div>
+              <div class="meta">${meta}</div>
+              ${notes ? `<div style="margin-top:6px; color: var(--muted); font-size: calc(12px * var(--s)); line-height: 1.35;">${notes}</div>` : ""}
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              ${it.url ? `<button class="iconbtn" data-learn-open="1" title="Open link">OPEN</button>` : ""}
+              <button class="iconbtn" data-learn-del="1" title="Delete">DEL</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      root.querySelectorAll("[data-learn-toggle]").forEach(cb => {
+        cb.addEventListener("change", (e) => {
+          const id = cb.closest("[data-learn]")?.getAttribute("data-learn");
+          if (id) toggleLearn(id);
+        });
+      });
+      root.querySelectorAll("[data-learn-open]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const id = btn.closest("[data-learn]")?.getAttribute("data-learn");
+          const it = (state.learn || []).find(x => x.id === id);
+          if (it?.url) openUrl(it.url);
+        });
+      });
+      root.querySelectorAll("[data-learn-del]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const id = btn.closest("[data-learn]")?.getAttribute("data-learn");
+          if (id) deleteLearn(id);
+        });
+      });
+    }
+
+    // Time
+    function renderTime() {
+      const d = new Date();
+      const opts = {
+        hour: "2-digit", minute: "2-digit",
+        second: state.settings.showSeconds ? "2-digit" : undefined
+      };
+      const clock = new Intl.DateTimeFormat(undefined, opts).format(d);
+      const date = new Intl.DateTimeFormat(undefined, {
+        weekday: "long", year: "numeric", month: "short", day: "2-digit"
+      }).format(d);
+      document.getElementById("clock").textContent = clock;
+      document.getElementById("date").textContent = date;
+
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
+        const off = -d.getTimezoneOffset();
+        const sign = off >= 0 ? "+" : "-";
+        const abs = Math.abs(off);
+        const hh = String(Math.floor(abs/60)).padStart(2,"0");
+        const mm = String(abs%60).padStart(2,"0");
+        document.getElementById("tz").textContent = `${tz} (UTC${sign}${hh}:${mm})`;
+      } catch {
+        document.getElementById("tz").textContent = "local";
+      }
+    }
+
+    // Weather
+    const WCODE = {
+      0: ["☀️","Clear"],
+      1: ["🌤️","Mostly clear"],
+      2: ["⛅","Partly cloudy"],
+      3: ["☁️","Overcast"],
+      45: ["🌫️","Fog"],
+      48: ["🌫️","Depositing rime fog"],
+      51: ["🌦️","Light drizzle"],
+      53: ["🌦️","Drizzle"],
+      55: ["🌧️","Dense drizzle"],
+      56: ["🌧️","Freezing drizzle"],
+      57: ["🌧️","Freezing drizzle"],
+      61: ["🌧️","Slight rain"],
+      63: ["🌧️","Rain"],
+      65: ["🌧️","Heavy rain"],
+      66: ["🌧️","Freezing rain"],
+      67: ["🌧️","Freezing rain"],
+      71: ["🌨️","Snow"],
+      73: ["🌨️","Snow"],
+      75: ["🌨️","Heavy snow"],
+      77: ["🌨️","Snow grains"],
+      80: ["🌦️","Rain showers"],
+      81: ["🌦️","Rain showers"],
+      82: ["🌧️","Violent showers"],
+      85: ["🌨️","Snow showers"],
+      86: ["🌨️","Snow showers"],
+      95: ["⛈️","Thunderstorm"],
+      96: ["⛈️","Thunderstorm + hail"],
+      99: ["⛈️","Thunderstorm + hail"],
+    };
+
+    function setWeatherUI({temp, desc, loc, icon}) {
+      document.getElementById("weatherTemp").textContent = `${temp} • ${desc}`;
+      document.getElementById("weatherMeta").textContent = loc ? `Location: ${loc}` : "Location: —";
+      document.getElementById("weatherIcon").textContent = icon;
+      document.getElementById("weatherMeta").classList.remove("err");
+    }
+
+    function setWeatherError(msg) {
+      document.getElementById("weatherTemp").textContent = "Weather: unavailable";
+      document.getElementById("weatherMeta").textContent = msg;
+      document.getElementById("weatherMeta").classList.add("err");
+      document.getElementById("weatherIcon").textContent = "⚠️";
+    }
+
+    async function getGeo() {
+      // 1) navigator.geolocation (best)
+      if (state.settings.weatherAuto && navigator.geolocation) {
+        try {
+          const pos = await new Promise((res, rej) => navigator.geolocation.getCurrentPosition(res, rej, {
+            enableHighAccuracy: false,
+            timeout: 6000,
+            maximumAge: 10 * 60 * 1000
+          }));
+          return {
+            lat: pos.coords.latitude,
+            lon: pos.coords.longitude,
+            loc: "your location"
+          };
+        } catch (e) {
+          // ignore -> fallback
+        }
+      }
+      // 2) IP fallback
+      try {
+        const r = await fetch("https://ipapi.co/json/", { cache: "no-store" });
+        if (!r.ok) throw new Error("ipapi fail");
+        const j = await r.json();
+        return {
+          lat: j.latitude,
+          lon: j.longitude,
+          loc: [j.city, j.region, j.country_name].filter(Boolean).join(", ")
+        };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function fetchWeather(lat, lon) {
+      const unit = (state.settings.tempUnit || "C").toUpperCase();
+      const tempUnitParam = unit === "F" ? "fahrenheit" : "celsius";
+      const base = "https://api.open-meteo.com/v1/forecast";
+      const url1 = `${base}?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&temperature_unit=${tempUnitParam}&timezone=auto`;
+      const url2 = `${base}?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lon)}&current_weather=true&temperature_unit=${tempUnitParam}&timezone=auto`;
+
+      const tryFetch = async (u) => {
+        const r = await fetch(u, { cache: "no-store" });
+        if (!r.ok) throw new Error("weather fetch fail");
+        return r.json();
+      };
+
+      try {
+        return await tryFetch(url1);
+      } catch {
+        return await tryFetch(url2);
+      }
+    }
+
+    async function refreshWeather() {
+      try {
+        const geo = await getGeo();
+        if (!geo || !geo.lat || !geo.lon) {
+          setWeatherError("Location denied + IP fallback failed");
+          return;
+        }
+        const j = await fetchWeather(geo.lat, geo.lon);
+
+        let temp = null;
+        let code = null;
+
+        if (j.current) {
+          temp = j.current.temperature_2m;
+          code = j.current.weather_code;
+        } else if (j.current_weather) {
+          temp = j.current_weather.temperature;
+          code = j.current_weather.weathercode;
+        }
+
+        if (temp === null || code === null) {
+          setWeatherError("Weather parse failed");
+          return;
+        }
+
+        const label = WCODE[code] || ["⛅","Weather"];
+        const unit = (state.settings.tempUnit || "C").toUpperCase();
+        const t = `${Math.round(temp)}°${unit}`;
+        setWeatherUI({
+          temp: t,
+          desc: label[1],
+          loc: geo.loc,
+          icon: label[0]
+        });
+
+        // cache last weather for fast startup
+        state._weatherCache = {
+          t: safeNow(),
+          geo,
+          temp: t,
+          desc: label[1],
+          icon: label[0]
+        };
+        saveState();
+      } catch (e) {
+        setWeatherError("Weather fetch blocked");
+      }
+    }
+
+    function warmWeatherFromCache() {
+      const c = state._weatherCache;
+      if (!c || !c.t) return false;
+      if ((safeNow() - c.t) > 30*60*1000) return false;
+      setWeatherUI({
+        temp: c.temp,
+        desc: c.desc,
+        loc: c.geo?.loc || "",
+        icon: c.icon || "⛅"
+      });
+      return true;
+    }
+
+    // Command palette
+    const overlay = document.getElementById("overlay");
+    const palInput = document.getElementById("palInput");
+    const palResults = document.getElementById("palResults");
+    const palClose = document.getElementById("palClose");
+
+    let palIndex = 0;
+    let palItems = [];
+
+    function openPalette() {
+      overlay.classList.add("on");
+      overlay.setAttribute("aria-hidden", "false");
+      palInput.value = "";
+      palIndex = 0;
+      renderPalette();
+      setTimeout(() => palInput.focus(), 0);
+    }
+
+    function closePalette() {
+      overlay.classList.remove("on");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    function renderPalette() {
+      const q = palInput.value.trim();
+      const bookmarks = allBookmarks();
+
+      const actions = [
+        { kind: "action", title: "Add learn item", subtitle: "Focus Learn form", tag: "action", run: () => {
+          document.querySelector("details summary")?.scrollIntoView({behavior:"smooth", block:"center"});
+          document.getElementById("learnTitle")?.focus();
+          closePalette();
+        }},
+        { kind: "action", title: "Export state", subtitle: "Download JSON", tag: "action", run: () => {
+          exportState();
+          closePalette();
+        }},
+        { kind: "action", title: "Import bookmarks HTML", subtitle: "Merge into custom bookmarks", tag: "action", run: () => {
+          document.getElementById("importBmBtn").click();
+          closePalette();
+        }},
+      ];
+
+      let items = [];
+      if (!q) {
+        // show pins and top freq
+        const pins = bookmarks.filter(b => isPinned(b.url));
+        const freq = bookmarks.map(b => ({...b, v: state.visits[b.url]?.count || 0}))
+          .filter(b => b.v > 0 && !isPinned(b.url))
+          .sort((a,b) => b.v - a.v)
+          .slice(0, 10);
+        items = [
+          ...actions,
+          ...pins.map(b => ({ kind:"bm", ...b, tag: b.category || "bookmark" })),
+          ...freq.map(b => ({ kind:"bm", ...b, tag: "freq" })),
+        ];
+      } else {
+        const scored = bookmarks
+          .map(b => {
+            const s = scoreMatch(q, `${b.title} ${b.domain} ${b.url} ${b.category}`);
+            return {...b, s};
+          })
+          .filter(x => x.s > 0)
+          .sort((a,b) => b.s - a.s)
+          .slice(0, 18);
+
+        items = [
+          ...actions,
+          ...scored.map(b => ({ kind:"bm", ...b, tag: b.category || "bookmark" }))
+        ];
+      }
+
+      palItems = items;
+
+      palResults.innerHTML = items.length ? items.map((it, i) => {
+        const sel = i === palIndex ? "r sel" : "r";
+        const tt = escapeHTML(it.title);
+        const ss = escapeHTML(it.subtitle || it.domain || fmtDomain(it.url || "") || "");
+        const tag = escapeHTML(it.tag || "bookmark");
+        return `<div class="${sel}" data-idx="${i}">
+          <div class="left">
+            <div class="tt">${tt}</div>
+            <div class="ss">${ss}</div>
+          </div>
+          <div class="tag">${tag}</div>
+        </div>`;
+      }).join("") : "<div style='color:var(--muted); padding:10px 4px;'>No matches.</div>";
+
+      palResults.querySelectorAll("[data-idx]").forEach(el => {
+        el.addEventListener("mouseenter", () => {
+          palIndex = Number(el.getAttribute("data-idx") || "0");
+          renderPalette();
+        });
+        el.addEventListener("click", () => runPalette(palIndex));
+      });
+    }
+
+    function runPalette(idx) {
+      const it = palItems[idx];
+      if (!it) return;
+      if (it.kind === "action") it.run();
+      else if (it.kind === "bm") openUrl(it.url);
+    }
+
+    // Export/import state
+    function downloadText(filename, text) {
+      const blob = new Blob([text], {type:"application/octet-stream"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportState() {
+      const clean = structuredClone(state);
+      downloadText("debtcoder_startpage_state.json", JSON.stringify(clean, null, 2));
+    }
+
+    function importState(obj) {
+      state = deepMerge(structuredClone(defaultState), obj);
+      saveState();
+      renderAll();
+    }
+
+    // Import bookmarks HTML (best-effort)
+    function importBookmarksHTML(htmlText) {
+      const doc = new DOMParser().parseFromString(htmlText, "text/html");
+      const as = Array.from(doc.querySelectorAll("a[href]"));
+      const imported = [];
+      for (const a of as) {
+        const url = (a.getAttribute("href") || "").trim();
+        if (!url) continue;
+        const title = (a.textContent || url).trim();
+        imported.push({
+          category: "Imported",
+          domain: fmtDomain(url),
+          title,
+          url
+        });
+      }
+      // Merge into state.customBookmarks with dedupe
+      const merged = [...(state.customBookmarks || []), ...imported];
+      const seen = new Set();
+      const out = [];
+      for (const b of merged) {
+        const u = (b.url || "").trim();
+        if (!u || seen.has(u)) continue;
+        seen.add(u);
+        out.push(b);
+      }
+      state.customBookmarks = out;
+      saveState();
+      renderAll();
+    }
+
+    // Wire UI
+    document.getElementById("engineBtn").addEventListener("click", cycleEngine);
+    document.getElementById("resetStatsBtn").addEventListener("click", resetStats);
+    document.getElementById("toggleAllBtn").addEventListener("click", () => {
+      allExpanded = !allExpanded;
+      renderBookmarks();
+    });
+
+    document.getElementById("bmFilter").addEventListener("input", renderBookmarks);
+
+    document.getElementById("exportBtn").addEventListener("click", exportState);
+
+    document.getElementById("importStateBtn").addEventListener("click", () => {
+      document.getElementById("importStateFile").click();
+    });
+    document.getElementById("importStateFile").addEventListener("change", async (e) => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const text = await f.text();
+      try {
+        const obj = JSON.parse(text);
+        importState(obj);
+      } catch {
+        alert("Invalid JSON");
+      }
+      e.target.value = "";
+    });
+
+    document.getElementById("importBmBtn").addEventListener("click", () => {
+      document.getElementById("importBmFile").click();
+    });
+    document.getElementById("importBmFile").addEventListener("change", async (e) => {
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const text = await f.text();
+      importBookmarksHTML(text);
+      e.target.value = "";
+    });
+
+    document.getElementById("saveLearnBtn").addEventListener("click", () => {
+      const title = document.getElementById("learnTitle").value;
+      const url = document.getElementById("learnUrl").value;
+      const notes = document.getElementById("learnNotes").value;
+      if (!title.trim()) return;
+      addLearnItem({title, url, notes});
+      document.getElementById("learnTitle").value = "";
+      document.getElementById("learnUrl").value = "";
+      document.getElementById("learnNotes").value = "";
+    });
+
+    // Search box: enter => open engine or URL
+    const searchBox = document.getElementById("searchBox");
+    function looksLikeUrl(s) {
+      const t = s.trim();
+      if (!t) return false;
+      if (/^https?:\/\//i.test(t)) return true;
+      if (/^[a-z0-9.-]+\.[a-z]{2,}(\/|$)/i.test(t)) return true;
+      return false;
+    }
+    function toUrl(s) {
+      const t = s.trim();
+      if (/^https?:\/\//i.test(t)) return t;
+      return "https://" + t;
+    }
+
+    searchBox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const q = searchBox.value.trim();
+        if (!q) return;
+        if (looksLikeUrl(q)) openUrl(toUrl(q));
+        else window.open(currentEngine().url(q), "_blank", "noopener,noreferrer");
+        searchBox.value = "";
+      }
+      if (e.key === "ArrowDown") {
+        openPalette();
+      }
+    });
+
+    // Global hotkeys
+    document.addEventListener("keydown", (e) => {
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      const inInput = tag === "input" || tag === "textarea";
+
+      if (!inInput && e.key === "/") {
+        e.preventDefault();
+        searchBox.focus();
+        return;
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openPalette();
+        return;
+      }
+      if (e.key === "Escape") {
+        if (overlay.classList.contains("on")) {
+          closePalette();
+          return;
+        }
+      }
+      if (!inInput && e.key.toLowerCase() === "a") {
+        // focus learn form
+        document.getElementById("learnTitle")?.focus();
+      }
+    });
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closePalette();
+    });
+    palClose.addEventListener("click", closePalette);
+    palInput.addEventListener("input", () => {
+      palIndex = 0;
+      renderPalette();
+    });
+    palInput.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        palIndex = Math.min(palIndex + 1, palItems.length - 1);
+        renderPalette();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        palIndex = Math.max(palIndex - 1, 0);
+        renderPalette();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        runPalette(palIndex);
+      } else if (e.key === "Escape") {
+        closePalette();
+      }
+    });
+
+    function renderAll() {
+      document.getElementById("engineLabel").textContent = currentEngine().label;
+      renderGotos();
+      renderLearn();
+      renderBookmarks();
+    }
+
+    // Boot
+    renderAll();
+    renderTime();
+    setInterval(renderTime, 1000);
+
+    // Weather: show cache immediately, then refresh
+    warmWeatherFromCache();
+    refreshWeather();
+    setInterval(refreshWeather, 15 * 60 * 1000);
+  </script>
+</body>
+</html>
